@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Brazil &amp; Argentina Discovery — Scenic Eclipse II</title>
+<style>
+:root {
+  --navy:#0d1b2a; --navy-mid:#1a2e45; --navy-light:#243b55;
+  --green:#2e8b57; --green-light:#3aab6d;
+  --gold:#c9a84c; --gold-light:#e2c06a;
+  --text:#e8edf2; --text-muted:#9fb3c8; --text-dim:#6b8299;
+  --card:#162030; --card-border:#243b55;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--navy);color:var(--text);font-size:15px;line-height:1.6;}
+a{color:var(--gold-light);text-decoration:none;}
+a:hover{text-decoration:underline;}
+.skip-link{position:absolute;top:-40px;left:0;background:var(--gold);color:var(--navy);padding:8px 16px;z-index:9999;font-weight:700;border-radius:0 0 6px 0;}
+.skip-link:focus{top:0;}
+#live-region{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+
+/* HEADER */
+header{background:linear-gradient(135deg,#0a1520 0%,#1a2e45 50%,#0d2a1a 100%);border-bottom:2px solid var(--gold);padding:20px 24px 16px;position:sticky;top:0;z-index:100;}
+.header-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.ship-name{font-size:11px;font-weight:600;letter-spacing:2px;color:var(--gold);text-transform:uppercase;}
+.voyage-title{font-size:22px;font-weight:700;color:var(--text);margin:4px 0 2px;}
+.voyage-dates{font-size:13px;color:var(--text-muted);}
+.header-badge{background:var(--green);color:white;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+
+/* PORT NAV */
+.port-nav-wrapper{background:var(--navy-mid);border-bottom:1px solid var(--card-border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--gold) var(--navy-mid);}
+.port-nav{display:flex;gap:0;min-width:max-content;padding:0 8px;}
+.port-tab{padding:12px 16px;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;}
+.port-tab:hover{color:var(--text);background:rgba(255,255,255,0.04);}
+.port-tab.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(201,168,76,0.08);}
+
+/* ESSENTIALS */
+.essentials-bar{background:var(--navy-light);border-bottom:1px solid var(--card-border);padding:0 16px;}
+.essentials-toggle{background:none;border:none;color:var(--gold-light);font-size:13px;font-weight:600;cursor:pointer;padding:10px 0;display:flex;align-items:center;gap:6px;font-family:inherit;width:100%;}
+.essentials-toggle .arrow{transition:transform 0.2s;}
+.essentials-toggle.open .arrow{transform:rotate(180deg);}
+.essentials-panel{display:none;padding:0 0 16px;}
+.essentials-panel.open{display:block;}
+.essentials-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:8px;}
+.essential-item{background:var(--card);border:1px solid var(--card-border);border-radius:8px;padding:12px 14px;}
+.essential-label{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:4px;}
+.essential-value{font-size:13px;color:var(--text);}
+
+/* PORT SECTIONS */
+main{padding:0;}
+.port-section{display:none;padding:20px 16px 40px;max-width:900px;margin:0 auto;}
+.port-section.active{display:block;}
+
+/* PORT HEADER */
+.port-header{background:linear-gradient(135deg,var(--navy-light),var(--card));border:1px solid var(--card-border);border-radius:12px;padding:20px;margin-bottom:20px;}
+.port-header-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;}
+.port-name{font-size:26px;font-weight:800;color:var(--text);}
+.port-country{font-size:13px;color:var(--text-muted);margin-top:2px;}
+.port-badges{display:flex;gap:8px;flex-wrap:wrap;}
+.badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:0.5px;}
+.badge-dock{background:rgba(46,139,87,0.25);color:#5ddb8e;border:1px solid rgba(46,139,87,0.4);}
+.badge-tender{background:rgba(192,57,43,0.25);color:#e87c6e;border:1px solid rgba(192,57,43,0.4);}
+.badge-currency{background:rgba(201,168,76,0.2);color:var(--gold-light);border:1px solid rgba(201,168,76,0.3);}
+.badge-tip{background:rgba(26,188,156,0.2);color:#5de8d0;border:1px solid rgba(26,188,156,0.3);}
+.port-quick-facts{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--card-border);}
+.quick-fact{font-size:13px;color:var(--text-muted);}
+.quick-fact strong{color:var(--text);}
+
+/* CARDS */
+.section-card{background:var(--card);border:1px solid var(--card-border);border-radius:10px;margin-bottom:16px;overflow:hidden;}
+.section-card-header{padding:14px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--card-border);display:flex;align-items:center;gap:10px;}
+.section-icon{font-size:18px;}
+.section-title{font-size:14px;font-weight:700;letter-spacing:0.5px;color:var(--gold);text-transform:uppercase;}
+.section-card-body{padding:16px 18px;}
+
+/* ITEMS */
+.item{padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.06);}
+.item:last-child{border-bottom:none;padding-bottom:0;}
+.item:first-child{padding-top:0;}
+.item-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.item-desc{font-size:13px;color:var(--text-muted);line-height:1.5;}
+.item-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;margin-right:4px;margin-bottom:4px;letter-spacing:0.5px;}
+.tag-holly{background:rgba(26,188,156,0.2);color:#5de8d0;border:1px solid rgba(26,188,156,0.3);}
+.tag-market{background:rgba(201,168,76,0.2);color:var(--gold-light);border:1px solid rgba(201,168,76,0.3);}
+.tag-seafood{background:rgba(52,152,219,0.2);color:#7ec8f0;border:1px solid rgba(52,152,219,0.3);}
+.tag-wine{background:rgba(155,89,182,0.2);color:#c39bd3;border:1px solid rgba(155,89,182,0.3);}
+.tag-crowd{background:rgba(231,76,60,0.2);color:#f1948a;border:1px solid rgba(231,76,60,0.3);}
+.tag-walk{background:rgba(46,204,113,0.2);color:#82e0aa;border:1px solid rgba(46,204,113,0.3);}
+.tag-photo{background:rgba(241,196,15,0.2);color:#f9e79f;border:1px solid rgba(241,196,15,0.3);}
+
+/* ALERTS */
+.crowd-alert{background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#f1948a;margin-bottom:12px;display:flex;gap:8px;align-items:flex-start;}
+.holly-safe{background:rgba(26,188,156,0.08);border:1px solid rgba(26,188,156,0.25);border-radius:8px;padding:10px 14px;font-size:13px;color:#5de8d0;margin-bottom:12px;}
+.holly-safe strong{color:#1abc9c;}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:inherit;text-decoration:none;transition:all 0.2s;letter-spacing:0.3px;}
+.btn-map{background:rgba(52,152,219,0.2);color:#7ec8f0;border:1px solid rgba(52,152,219,0.4);}
+.btn-map:hover{background:rgba(52,152,219,0.35);text-decoration:none;}
+.btn-ai{background:rgba(155,89,182,0.2);color:#c39bd3;border:1px solid rgba(155,89,182,0.4);}
+.btn-ai:hover{background:rgba(155,89,182,0.35);text-decoration:none;}
+
+/* TRANSPORT TABLE */
+.transport-table{width:100%;border-collapse:collapse;font-size:13px;}
+.transport-table th{text-align:left;padding:8px 10px;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--card-border);}
+.transport-table td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--text-muted);vertical-align:top;}
+.transport-table td:first-child{color:var(--text);font-weight:600;}
+.transport-table tr:last-child td{border-bottom:none;}
+
+/* OFFICIAL LINKS */
+.official-links{display:flex;flex-direction:column;gap:8px;}
+.official-link{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:8px;font-size:13px;color:var(--gold-light);transition:background 0.2s;}
+.official-link:hover{background:rgba(255,255,255,0.07);text-decoration:none;}
+.official-link-icon{font-size:16px;}
+.official-link-text{flex:1;}
+.official-link-name{font-weight:600;color:var(--text);}
+.official-link-desc{font-size:11px;color:var(--text-dim);}
+
+@media(min-width:700px){
+  .port-section{padding:24px 24px 60px;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+}
+
+/* ── DAY PLANNER ── */
+.planner-tab { color: #5de8d0 !important; }
+.planner-tab.active { color: #1abc9c !important; border-bottom-color: #1abc9c !important; background: rgba(26,188,156,0.08) !important; }
+#port-planner { max-width: 700px; }
+.dp-port-select-wrap { margin-bottom: 20px; }
+.dp-port-select-wrap label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--gold); text-transform: uppercase; margin-bottom: 6px; }
+.dp-port-select { width: 100%; background: var(--card); border: 1px solid var(--card-border); color: var(--text); font-size: 15px; font-weight: 600; padding: 10px 14px; border-radius: 8px; font-family: inherit; cursor: pointer; }
+.dp-port-select:focus { outline: 2px solid var(--gold); }
+.dp-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+.dp-card-header { padding: 13px 18px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--card-border); display: flex; align-items: center; gap: 10px; }
+.dp-card-title { font-size: 14px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+.dp-card-title.teal { color: #1abc9c; }
+.dp-card-title.gold { color: var(--gold); }
+.dp-card-title.blue { color: #7ec8f0; }
+.dp-card-body { padding: 16px 18px; }
+.dp-times-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.dp-field-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
+.dp-input { width: 100%; background: var(--navy-mid); border: 1px solid var(--card-border); color: var(--text); font-size: 14px; padding: 9px 12px; border-radius: 7px; font-family: inherit; }
+.dp-input:focus { outline: 2px solid var(--gold); border-color: var(--gold); }
+.dp-textarea { width: 100%; background: var(--navy-mid); border: 1px solid var(--card-border); color: var(--text); font-size: 13px; padding: 9px 12px; border-radius: 7px; font-family: inherit; resize: vertical; min-height: 80px; }
+.dp-textarea:focus { outline: 2px solid var(--gold); border-color: var(--gold); }
+.dp-tender-alert { background: rgba(192,57,43,0.12); border: 1px solid rgba(192,57,43,0.35); border-radius: 7px; padding: 9px 13px; font-size: 12px; color: #e87c6e; margin-top: 10px; display: none; }
+.dp-tender-alert.show { display: block; }
+.dp-checklist { list-style: none; }
+.dp-checklist li { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.dp-checklist li:last-child { border-bottom: none; }
+.dp-checklist input[type=checkbox] { margin-top: 3px; width: 16px; height: 16px; accent-color: #1abc9c; flex-shrink: 0; cursor: pointer; }
+.dp-checklist label { font-size: 13px; color: var(--text-muted); cursor: pointer; line-height: 1.4; }
+.dp-checklist input:checked + label { color: var(--text); text-decoration: line-through; opacity: 0.6; }
+.dp-add-row { display: flex; gap: 8px; margin-top: 12px; }
+.dp-add-input { flex: 1; background: var(--navy-mid); border: 1px solid var(--card-border); color: var(--text); font-size: 13px; padding: 8px 12px; border-radius: 7px; font-family: inherit; }
+.dp-add-input:focus { outline: 2px solid var(--gold); }
+.dp-add-btn { background: rgba(26,188,156,0.2); border: 1px solid rgba(26,188,156,0.4); color: #1abc9c; font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 7px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+.dp-add-btn:hover { background: rgba(26,188,156,0.35); }
+.dp-clear-btn { background: rgba(231,76,60,0.15); border: 1px solid rgba(231,76,60,0.3); color: #e87c6e; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-family: inherit; margin-left: auto; display: block; margin-top: 14px; }
+.dp-clear-btn:hover { background: rgba(231,76,60,0.28); }
+.dp-saved-note { font-size: 11px; color: var(--text-dim); text-align: right; margin-top: 8px; font-style: italic; }
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div aria-atomic="true" aria-live="polite" id="live-region"></div>
+<header>
+<div class="header-top">
+<div>
+<div class="ship-name">Scenic Eclipse II · Scenic Cruises</div>
+<div class="voyage-title">Brazil &amp; Argentina Discovery</div>
+<div class="voyage-dates">November 3–14, 2026</div>
+</div>
+<div class="header-badge">9 Ports</div>
+</div>
+</header>
+<nav aria-label="Port navigation">
+<div class="port-nav-wrapper">
+<div class="port-nav" role="tablist">
+<button aria-controls="port-rio" aria-selected="true" class="port-tab active" onclick="showPort('rio',this)" role="tab">🇧🇷 Rio de Janeiro</button>
+<button aria-controls="port-buzios" aria-selected="false" class="port-tab" onclick="showPort('buzios',this)" role="tab">Búzios</button>
+<button aria-controls="port-ilha" aria-selected="false" class="port-tab" onclick="showPort('ilha',this)" role="tab">Ilha Grande</button>
+<button aria-controls="port-paraty" aria-selected="false" class="port-tab" onclick="showPort('paraty',this)" role="tab">Paraty</button>
+<button aria-controls="port-ilhabela" aria-selected="false" class="port-tab" onclick="showPort('ilhabela',this)" role="tab">Ilhabela</button>
+<button aria-controls="port-sfs" aria-selected="false" class="port-tab" onclick="showPort('sfs',this)" role="tab">São Francisco do Sul</button>
+<button aria-controls="port-pde" aria-selected="false" class="port-tab" onclick="showPort('pde',this)" role="tab">🇺🇾 Punta del Este</button>
+<button aria-controls="port-mvd" aria-selected="false" class="port-tab" onclick="showPort('mvd',this)" role="tab">Montevideo</button>
+<button aria-controls="port-bue" aria-selected="false" class="port-tab" onclick="showPort('bue',this)" role="tab">🇦🇷 Buenos Aires</button>
+<button aria-controls="port-planner" aria-selected="false" class="port-tab planner-tab" onclick="showPort('planner',this)" role="tab">📋 Day Planner</button>
+</div>
+</div>
+</nav>
+<div class="essentials-bar">
+<button aria-expanded="false" class="essentials-toggle" onclick="toggleEssentials(this)">
+<span>⚓ Voyage Essentials &amp; Holly Notes</span>
+<span class="arrow">▼</span>
+</button>
+<div class="essentials-panel" id="essentials-panel">
+<div class="essentials-grid">
+<div class="essential-item"><div class="essential-label">Ship</div><div class="essential-value">Scenic Eclipse II · Ultra-luxury · ~228 guests · All-inclusive · Butler service</div></div>
+<div class="essential-item"><div class="essential-label">Brazil Currency</div><div class="essential-value">Brazilian Real (R$) · Cards widely accepted · Carry R$150–200 cash for markets, taxis &amp; tenders</div></div>
+<div class="essential-item"><div class="essential-label">Uruguay Currency</div><div class="essential-value">Uruguayan Peso (UYU) · Cards accepted in restaurants · Cash for buses &amp; markets</div></div>
+<div class="essential-item"><div class="essential-label">Argentina Currency</div><div class="essential-value">Argentine Peso (ARS) · USD widely accepted · Carry small bills</div></div>
+<div class="essential-item"><div class="essential-label">Tender Ports</div><div class="essential-value">Búzios · Ilha Grande · Paraty · Ilhabela — ship anchors offshore, tender to pier</div></div>
+<div class="essential-item"><div class="essential-label">Dock Ports</div><div class="essential-value">Rio de Janeiro · São Francisco do Sul · Punta del Este · Montevideo · Buenos Aires</div></div>
+<div class="essential-item"><div class="essential-label">Holly Avoids</div><div class="essential-value">Red meat · Dairy · Garlic · Red wines · Say "sem alho" (Brazil) or "sin ajo" (Uruguay/Argentina)</div></div>
+<div class="essential-item"><div class="essential-label">Holly Loves</div><div class="essential-value">Seafood · Fresh fish · Tropical fruits · Dried fruits · Olive oils · White wines · Local varieties</div></div>
+<div class="essential-item"><div class="essential-label">November Weather</div><div class="essential-value">Brazil: 27–31°C, start of wet season, afternoon showers possible · Uruguay/Argentina: 20–25°C, spring</div></div>
+<div class="essential-item"><div class="essential-label">Insect Protection</div><div class="essential-value">DEET essential at Ilha Grande &amp; Ilhabela (borrachudo flies) — apply BEFORE going ashore</div></div>
+<div class="essential-item"><div class="essential-label">Languages</div><div class="essential-value">Brazil: Portuguese · Uruguay &amp; Argentina: Spanish</div></div>
+<div class="essential-item"><div class="essential-label">Ship Tours</div><div class="essential-value">Managed separately — this app covers independent options only</div></div>
+</div>
+</div>
+</div>
+<main id="main-content">
+<!-- ══════════════════════════════════════════ -->
+<!-- RIO DE JANEIRO -->
+<!-- ══════════════════════════════════════════ -->
+<section class="port-section active" id="port-rio" role="tabpanel">
+<div class="port-header">
+<div class="port-header-top">
+<div><div class="port-name">Rio de Janeiro</div><div class="port-country">Brazil · State of Rio de Janeiro</div></div>
+<div class="port-badges">
+<span class="badge badge-dock">⚓ Docks</span>
+<span class="badge badge-currency">R$ Real</span>
+</div>
+</div>
+<div class="port-quick-facts">
+<div class="quick-fact"><strong>Access:</strong> Ship docks — walk or taxi/Uber to city</div>
+<div class="quick-fact"><strong>To Ipanema:</strong> ~5 km · To Santa Teresa: ~3 km</div>
+<div class="quick-fact"><strong>Getting around:</strong> Uber, taxi, Metro Lines 1 &amp; 2</div>
+<div class="quick-fact"><strong>November:</strong> 29°C avg · Start of wet season · Afternoon showers possible</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🏛️</span><span class="section-title">Activities &amp; Sights</span></div>
+<div class="section-card-body">
+<div class="crowd-alert">⚠️ <span><strong>Christ the Redeemer:</strong> Arrive at opening (7:20 AM) or after 3 PM to avoid peak crowds. Buy tickets online in advance at paineirascorcovado.com.br</span></div>
+<div class="item">
+<div class="item-name">Christ the Redeemer (Corcovado)</div>
+<span class="item-tag tag-photo">📷 Photography</span><span class="item-tag tag-crowd">⏰ Time it</span>
+<div class="item-desc">Opens 7:20 AM. Go early for soft light and empty arms. Left side frames Rodrigo de Freitas Lagoon; right side frames Sugarloaf. Take the Corcovado train from Cosme Velho — more scenic than van. November has moderate crowds — not peak season.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Christ+the+Redeemer+Rio+de+Janeiro" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Christ+the+Redeemer+Rio+history+architecture" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Santa Teresa Neighborhood</div>
+<span class="item-tag tag-walk">🚶 Walking</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Rio's bohemian hilltop neighborhood — steep cobblestone streets, colonial mansions, art studios, cafés, and sweeping city views. Walk the neighborhood for details the tram misses. Best in morning light. Explore Largo do Guimarães for cafés and local life. Use Uber to/from — don't walk down to Lapa at night.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Santa+Teresa+Rio+de+Janeiro" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Santa+Teresa+Rio+de+Janeiro+history+bohemian" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Selaron Steps (Escadaria Selarón)</div>
+<span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Iconic mosaic staircase by Chilean artist Jorge Selarón — 215 steps covered in colorful tiles from 60+ countries. Best photographed in morning before crowds. Located between Lapa and Santa Teresa — combine with both neighborhoods.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Selaron+Steps+Rio+de+Janeiro" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Selaron+Steps+Rio+artist+Jorge+Selaron+history" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Sugarloaf Mountain (Pão de Açúcar)</div>
+<span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Two-stage cable car to 396m summit. Best at sunset for golden light over Guanabara Bay. Morro da Urca (first stop) has great views and is less crowded than the summit. Book cable car tickets online at bondinho.com.br.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Sugarloaf+Mountain+Rio+de+Janeiro" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Ipanema &amp; Arpoador</div>
+<span class="item-tag tag-walk">🚶 Walking</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Go early morning (before 10 AM) when locals exercise and the beach is calm. Arpoador rock between Ipanema and Copacabana is a famous sunset viewpoint — locals applaud the sun going down. Keep valuables minimal at the beach.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Arpoador+Rock+Rio+de+Janeiro" target="_blank">📍 Map</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🛒</span><span class="section-title">Markets</span></div>
+<div class="section-card-body">
+<div class="item">
+<div class="item-name">CADEG — Municipal Market (Benfica)</div>
+<span class="item-tag tag-market">🏪 Market</span><span class="item-tag tag-seafood">🐟 Seafood</span>
+<div class="item-desc">Rio's wholesale food hall — 100,000m², 714 stores. The real Rio market experience. Saturday 11:30–14:00 is the highlight: all-you-can-eat feijoada at Casa dos Galegos (R$95) with live chorinho band from 12:30. Bacalhau specialist Rei do Bacalhau, fresh fish counter (Peixaria do Zé — grilled robalo R$68), flower hall with orchids at wholesale prices. Zero tourists. Take Uber both ways (R$40 from Copacabana). Open Tue–Sat 6 AM–5 PM, Sun 6 AM–1 PM.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=CADEG+Mercado+Municipal+Rio+de+Janeiro+Benfica" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Feira Hippie de Ipanema (Sunday)</div>
+<span class="item-tag tag-market">🏪 Market</span>
+<div class="item-desc">Long-running Sunday market at Praça General Osório — Brazilian crafts, artwork, clothing, and souvenirs with personality. Good for fresh produce vendors on the edges. Sunday mornings.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Feira+Hippie+Ipanema+Praça+General+Osório" target="_blank">📍 Map</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🍽️</span><span class="section-title">Food &amp; Wine</span></div>
+<div class="section-card-body">
+<div class="holly-safe"><strong>Holly-safe focus:</strong> Seafood, fresh fish, açaí, tropical fruits, fresh juices, pão de queijo. Avoid feijoada (pork/beans with garlic). Say "sem alho" (no garlic) when ordering.</div>
+<div class="item">
+<div class="item-name">Boteco Culture</div>
+<span class="item-tag tag-seafood">🐟 Local</span>
+<div class="item-desc">Rio's neighborhood bars are social institutions. Order petiscos (shared plates): bolinhos de bacalhau (cod fritters), pastéis, grilled shrimp. Cold chopp (draft beer) or caipirinha. Busy botecos full of locals are always a better bet than tourist-facing restaurants.</div>
+</div>
+<div class="item">
+<div class="item-name">Açaí</div>
+<span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Rio's version is sweetened and served cold, topped with banana and granola. Excellent for a beach snack. Widely available at beach kiosks and juice bars.</div>
+</div>
+<div class="item">
+<div class="item-name">Wines</div>
+<span class="item-tag tag-wine">🍷 Wine</span>
+<div class="item-desc">Brazilian whites from Serra Gaúcha (Rio Grande do Sul) — look for Chardonnay and Riesling Itálico. Vinho Verde (Portuguese) widely available and pairs beautifully with seafood. CADEG has excellent wine stores with knowledgeable staff.</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🚌</span><span class="section-title">Transport</span></div>
+<div class="section-card-body">
+<table class="transport-table">
+<tr><th>Option</th><th>Details</th></tr>
+<tr><td>Uber / 99</td><td>Most reliable. Works throughout the city. Set pickup carefully in busy areas.</td></tr>
+<tr><td>Metro</td><td>Lines 1 &amp; 2 connect port area to Ipanema/Leblon. Clean and safe during the day.</td></tr>
+<tr><td>Taxi</td><td>Yellow cabs with meters. Agree fare for longer trips. Available at port.</td></tr>
+<tr><td>Corcovado Train</td><td>From Cosme Velho station. Book at paineirascorcovado.com.br. ~20 min scenic ride.</td></tr>
+<tr><td>Sugarloaf Cable Car</td><td>Book online at bondinho.com.br. Two stages: Praia Vermelha → Morro da Urca → Summit.</td></tr>
+</table>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🔗</span><span class="section-title">Official Sources</span></div>
+<div class="section-card-body">
+<div class="official-links">
+<a class="official-link" href="https://paineirascorcovado.com.br" target="_blank"><span class="official-link-icon">⛪</span><span class="official-link-text"><div class="official-link-name">paineirascorcovado.com.br</div><div class="official-link-desc">Christ the Redeemer — official tickets &amp; train booking</div></span></a>
+<a class="official-link" href="https://bondinho.com.br" target="_blank"><span class="official-link-icon">🚡</span><span class="official-link-text"><div class="official-link-name">bondinho.com.br</div><div class="official-link-desc">Sugarloaf cable car — official tickets</div></span></a>
+<a class="official-link" href="https://www.cadeg.org/en/home/" target="_blank"><span class="official-link-icon">🏪</span><span class="official-link-text"><div class="official-link-name">cadeg.org</div><div class="official-link-desc">CADEG Municipal Market — stores &amp; events</div></span></a>
+<a class="official-link" href="https://visit.rio" target="_blank"><span class="official-link-icon">🌆</span><span class="official-link-text"><div class="official-link-name">visit.rio</div><div class="official-link-desc">Official Rio de Janeiro tourism</div></span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- ══════════════════════════════════════════ -->
+<!-- BÚZIOS -->
+<!-- ══════════════════════════════════════════ -->
+<section class="port-section" id="port-buzios" role="tabpanel">
+<div class="port-header">
+<div class="port-header-top">
+<div><div class="port-name">Armação dos Búzios</div><div class="port-country">Brazil · State of Rio de Janeiro</div></div>
+<div class="port-badges">
+<span class="badge badge-tender">⛵ Tender</span>
+<span class="badge badge-currency">R$ Real</span>
+<span class="badge badge-tip">Watch swell</span>
+</div>
+</div>
+<div class="port-quick-facts">
+<div class="quick-fact"><strong>Tender to:</strong> Píer do Centro — Rua das Pedras starts at the pier</div>
+<div class="quick-fact"><strong>Center:</strong> 0 min — step off tender into town</div>
+<div class="quick-fact"><strong>Getting around:</strong> Walk (center), taxi boat (beaches), Uber/taxi (Ferradura/Geribá)</div>
+<div class="quick-fact"><strong>⚠️ Swell:</strong> Southerly swell can slow or stop tenders — return early</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🏖️</span><span class="section-title">Activities &amp; Sights</span></div>
+<div class="section-card-body">
+<div class="item">
+<div class="item-name">Rua das Pedras &amp; Orla Bardot</div>
+<span class="item-tag tag-walk">🚶 Walking</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">The cobbled main street starts right at the tender pier — boutiques, bars, restaurants. The Orla Bardot seafront path leads to the famous bronze Brigitte Bardot statue (she put Búzios on the map in 1964). Best in late morning once shops open; livelier toward evening. ~15 min walk to Praia dos Ossos.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Rua+das+Pedras+Búzios" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Búzios+Brazil+history+Brigitte+Bardot+fishing+village" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Praia João Fernandes — by Taxi Boat</div>
+<span class="item-tag tag-seafood">🐟 Snorkel</span><span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Sheltered bay with green water and rocks to snorkel around. Beach restaurants right on the sand. Take a taxi boat from the pier (R$20–40/person). Arrive by 10 AM for a good table. Order grilled fish at the beach kiosks.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Praia+João+Fernandes+Búzios" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Praia da Tartaruga — Green Turtles</div>
+<span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Calm bay west of center where green turtles are often spotted feeding close to shore. Morning is best for clearest water. Taxi boat from pier. Kiosks and chairs available.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Praia+da+Tartaruga+Búzios" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Schooner Beach-Hopping</div>
+<div class="item-desc">2.5-hour wooden schooner loop past a dozen beaches with two or three swim stops. Departs from the waterfront near the pier. ~R$70–100/person. The classic Búzios outing done the local way. Book at the pier on arrival.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Píer+do+Centro+Búzios" target="_blank">📍 Pier</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🍽️</span><span class="section-title">Food &amp; Wine</span></div>
+<div class="section-card-body">
+<div class="holly-safe"><strong>Holly-safe:</strong> Excellent seafood town. Say "sem alho" (no garlic). Fresh fish, grilled shrimp, moqueca de peixe (fish stew). Avoid moqueca de camarão with garlic-heavy versions.</div>
+<div class="item">
+<div class="item-name">La Gare — Mediterranean &amp; French</div>
+<span class="item-tag tag-seafood">🐟 Fine Dining</span><span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Inside Vila da Santa Hotel. Grilled octopus, fresh catch of the day, signature risottos. One of the most sought-after restaurants in Búzios. Reserve ahead — especially Saturday nights. Rua Vinte e Um, Praia dos Ossos.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=La+Gare+Búzios+Vila+da+Santa+Hotel" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">74 Restaurant — Casas Brancas Hotel</div>
+<span class="item-tag tag-seafood">🐟 Fine Dining</span><span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Panoramic view of Orla Bardot. Contemporary cuisine — lobster ravioli, catch of the day, prawns, tiraditos. Reserve at sunset for the best table. Alto do Humaitá, 10 — Orla Bardot.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=74+Restaurant+Casas+Brancas+Búzios" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Bar dos Pescadores</div>
+<span class="item-tag tag-seafood">🐟 Seafood</span>
+<div class="item-desc">20+ years at Porto do Manguinhos. Moqueca de peixe, pastéis, generous portions, open views of Praia da Armação. Av. José Bento Ribeiro Dantas, 550.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Bar+dos+Pescadores+Búzios" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Chez Michou — Crêperie (Cash Only)</div>
+<div class="item-desc">Búzios icon since 1986. Savory and sweet crêpes, fresh juices. Affordable. Cash only. Rua das Pedras — right from the tender pier. Avg R$30–60.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Chez+Michou+Búzios" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Wines</div>
+<span class="item-tag tag-wine">🍷 Wine</span>
+<div class="item-desc">Brazilian whites from Serra Gaúcha. Vinho Verde (Portuguese) pairs perfectly with seafood. Dom Juan restaurant (Rua das Pedras 70) has a well-curated wine selection with contemporary cuisine.</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🚌</span><span class="section-title">Transport</span></div>
+<div class="section-card-body">
+<table class="transport-table">
+<tr><th>Option</th><th>Details</th></tr>
+<tr><td>On foot</td><td>Center is compact — Rua das Pedras, Orla Bardot, Bardot statue all walkable from pier</td></tr>
+<tr><td>Taxi boat</td><td>R$20–40/person to João Fernandes, Azeda, Tartaruga. From beach beside pier. Confirm return time.</td></tr>
+<tr><td>Uber / 99</td><td>Available but waits can be long at peak times. Set pickup on Av. José Bento Ribeiro Dantas.</td></tr>
+<tr><td>Taxi</td><td>Fixed zones — agree fare first. Ferradura ~10 min, Geribá ~15 min. R$30–60.</td></tr>
+<tr><td>⚠️ Return</td><td>Join return tender queue well before last tender — southerly swell can cause delays</td></tr>
+</table>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🔗</span><span class="section-title">Official Sources</span></div>
+<div class="section-card-body">
+<div class="official-links">
+<a class="official-link" href="https://cruise-port.com/en/ports/buzios-cruise-port" target="_blank"><span class="official-link-icon">⛵</span><span class="official-link-text"><div class="official-link-name">cruise-port.com — Búzios</div><div class="official-link-desc">Tender pier details, transport options, port map</div></span></a>
+<a class="official-link" href="https://www.buzios.rj.gov.br" target="_blank"><span class="official-link-icon">🌊</span><span class="official-link-text"><div class="official-link-name">buzios.rj.gov.br</div><div class="official-link-desc">Official Búzios municipality tourism</div></span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- ══════════════════════════════════════════ -->
+<!-- ILHA GRANDE -->
+<!-- ══════════════════════════════════════════ -->
+<section class="port-section" id="port-ilha" role="tabpanel">
+<div class="port-header">
+<div class="port-header-top">
+<div><div class="port-name">Ilha Grande</div><div class="port-country">Brazil · State of Rio de Janeiro · UNESCO World Heritage</div></div>
+<div class="port-badges">
+<span class="badge badge-tender">⛵ Tender</span>
+<span class="badge badge-currency">R$ Real</span>
+<span class="badge badge-tip">No cars on island</span>
+</div>
+</div>
+<div class="port-quick-facts">
+<div class="quick-fact"><strong>Tender to:</strong> Vila do Abraão — the main village</div>
+<div class="quick-fact"><strong>Getting around:</strong> On foot, boat, or forest trails — zero cars, zero paved roads</div>
+<div class="quick-fact"><strong>⚠️ Insects:</strong> DEET repellent essential — apply before going ashore</div>
+<div class="quick-fact"><strong>Cash:</strong> Carry R$200+ — limited card acceptance on island</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🌿</span><span class="section-title">Activities &amp; Sights</span></div>
+<div class="section-card-body">
+<div class="item">
+<div class="item-name">Vila do Abraão — Village Exploration</div>
+<span class="item-tag tag-walk">🚶 Walking</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">The main village where tenders arrive. Pousadas, restaurants, and small shops fan out from the pier. Relaxed, car-free atmosphere. Walk the waterfront and explore the village lanes — the whole place is photogenic.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Vila+do+Abraão+Ilha+Grande" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Ilha+Grande+Brazil+history+prison+island+nature+reserve+UNESCO" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Praia de Lopes Mendes</div>
+<span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Brazil's most famous island beach — postcard-perfect white sand, turquoise water. Reached by boat from Abraão (~30 min) or a 3-hour forest trail. Boat is the practical choice for a port day. Hire a local boat at the pier.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Praia+Lopes+Mendes+Ilha+Grande" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Lagoa Azul (Blue Lagoon)</div>
+<span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Calm, crystal-clear snorkeling waters — one of the island's most beautiful spots. Reached by boat tour from Abraão. Often included in island boat circuits. Excellent for wildlife spotting.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Lagoa+Azul+Ilha+Grande" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Island Boat Circuit</div>
+<div class="item-desc">The classic way to see Ilha Grande — hire a local boat for a circuit of beaches and snorkeling spots including Lagoa Azul, Praia do Aventureiro, and Lopes Mendes. Negotiate at the pier. ~R$80–150/person for a shared circuit.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Vila+do+Abraão+pier+Ilha+Grande" target="_blank">📍 Pier</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Atlantic Rainforest Trails</div>
+<span class="item-tag tag-walk">🚶 Walking</span>
+<div class="item-desc">Most of the island is protected state park. Short trails from Abraão lead into dense Atlantic Forest — waterfalls, wildlife, dramatic vegetation. The trail to Praia do Abraãozinho is easy and rewarding (30 min each way).</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Ilha+Grande+State+Park+Brazil" target="_blank">📍 Map</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🍽️</span><span class="section-title">Food &amp; Wine</span></div>
+<div class="section-card-body">
+<div class="holly-safe"><strong>Holly-safe:</strong> Fresh seafood is the island specialty. Grilled fish, shrimp, moqueca de peixe. Say "sem alho" (no garlic). Tropical fruits widely available. Açaí bowls at village cafés. Carry cash.</div>
+<div class="item">
+<div class="item-name">Village Restaurants — Vila do Abraão</div>
+<span class="item-tag tag-seafood">🐟 Seafood</span>
+<div class="item-desc">Seafood restaurants line the waterfront in Abraão. Moqueca (fish stew), grilled fish, shrimp dishes. Casual, open-air settings. Prices are reasonable. Carry cash — card acceptance is limited.</div>
+</div>
+<div class="item">
+<div class="item-name">Beach Kiosks</div>
+<div class="item-desc">At accessible beaches — fresh coconut water, grilled fish, açaí, cold drinks. Cash only. Bring R$100–150 for a beach day with food and drinks.</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🚌</span><span class="section-title">Transport</span></div>
+<div class="section-card-body">
+<table class="transport-table">
+<tr><th>Option</th><th>Details</th></tr>
+<tr><td>On foot</td><td>Vila do Abraão is walkable. Forest trails fan out from the village.</td></tr>
+<tr><td>Local boats</td><td>Hire at the pier for beach circuits. Negotiate price. ~R$80–150/person shared.</td></tr>
+<tr><td>No cars</td><td>Zero cars, zero paved roads on the island. Everything is foot or boat.</td></tr>
+<tr><td>⚠️ Cash</td><td>Carry R$200+ — card acceptance is limited on the island</td></tr>
+</table>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🔗</span><span class="section-title">Official Sources</span></div>
+<div class="section-card-body">
+<div class="official-links">
+<a class="official-link" href="https://ilhagrande.travel/en/" target="_blank"><span class="official-link-icon">🌿</span><span class="official-link-text"><div class="official-link-name">ilhagrande.travel</div><div class="official-link-desc">Independent guide — beaches, trails, getting there, restaurants</div></span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- ══════════════════════════════════════════ -->
+<!-- PARATY -->
+<!-- ══════════════════════════════════════════ -->
+<section class="port-section" id="port-paraty" role="tabpanel">
+<div class="port-header">
+<div class="port-header-top">
+<div><div class="port-name">Paraty</div><div class="port-country">Brazil · State of Rio de Janeiro · UNESCO World Heritage</div></div>
+<div class="port-badges">
+<span class="badge badge-tender">⛵ Tender</span>
+<span class="badge badge-currency">R$ Real</span>
+<span class="badge badge-tip">Car-free historic center</span>
+</div>
+</div>
+<div class="port-quick-facts">
+<div class="quick-fact"><strong>Tender to:</strong> Cais de Paraty — historic center starts at the pier</div>
+<div class="quick-fact"><strong>Getting around:</strong> Walk (historic center is tiny), boat (bay islands)</div>
+<div class="quick-fact"><strong>⚠️ Cobblestones:</strong> Pé-de-moleque stones are uneven and slippery when wet — wear flat sturdy shoes</div>
+<div class="quick-fact"><strong>Tidal streets:</strong> Full-moon king tides flood the historic center by design</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🏛️</span><span class="section-title">Activities &amp; Sights</span></div>
+<div class="section-card-body">
+<div class="item">
+<div class="item-name">Centro Histórico — Four Churches Walk</div>
+<span class="item-tag tag-walk">🚶 Walking</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Start early while light is golden on the whitewash and cobbles are quiet. Four churches tell the story of colonial Brazil's caste system: Igreja Matriz de Nossa Senhora dos Remédios (colonial elite), Igreja de Santa Rita (freed mixed-race pardos — most photographed building in Paraty), Nossa Senhora do Rosário e São Benedito (enslaved and free Black brotherhood), Nossa Senhora das Dores (white aristocracy). The whole historic center is car-free and crossable in minutes.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Centro+Histórico+Paraty" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Paraty+Brazil+colonial+history+gold+route+UNESCO+four+churches" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Schooner into the Bay — Saco do Mamanguá</div>
+<span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Wooden saveiro schooners run shared trips into the Baía de Paraty — calm island beaches and green swimming coves. Ask for Saco do Mamanguá, a long fjord-like tropical inlet ringed by Atlantic Forest — the standout natural sight. Book the day before at the pier or through the ship. 2–3 hours. Best midday when sun is high.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Paraty+pier+schooner" target="_blank">📍 Pier</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Forte Defensor Perpétuo</div>
+<span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Small hilltop fort above the bay — the view reads the whole colonial plan at once. Best at dusk when the light drops and lanterns come on in the historic center below. Short walk from the center.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Forte+Defensor+Perpétuo+Paraty" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Forte+Defensor+Perpetuo+Paraty+gold+route+history" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Cachaça Tasting</div>
+<div class="item-desc">Paraty was one of colonial Brazil's great cachaça producers — the spirit became so prized that "parati" was slang for cachaça across Brazil. Several alambiques (distilleries) near town welcome visitors. Shops in the center pour local labels. Afternoon activity after the boat trip.</div>
+<div class="btn-row">
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Paraty+cachaça+history+distilleries+colonial+Brazil" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🍽️</span><span class="section-title">Food &amp; Wine</span></div>
+<div class="section-card-body">
+<div class="holly-safe"><strong>Holly-safe:</strong> Caiçara cooking focuses on fresh seafood — grilled fish, shrimp, moqueca de peixe. Say "sem alho" (no garlic). Fresh tropical fruits at market stalls. Cachaça is dairy-free and garlic-free.</div>
+<div class="item">
+<div class="item-name">Caiçara Cuisine</div>
+<span class="item-tag tag-seafood">🐟 Local</span>
+<div class="item-desc">The traditional cooking of the coastal Caiçara people — fresh fish, shrimp, moqueca (fish stew), pirão (fish broth thickened with manioc flour). Restaurants in the historic center serve this alongside cachaça-based cocktails.</div>
+</div>
+<div class="item">
+<div class="item-name">Historic Center Restaurants</div>
+<div class="item-desc">The streets around the Casa da Cultura in the historic center have the best concentration of restaurants. Eat lunch after the morning church walk and before the afternoon boat trip.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Casa+da+Cultura+Paraty" target="_blank">📍 Map</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🚌</span><span class="section-title">Transport</span></div>
+<div class="section-card-body">
+<table class="transport-table">
+<tr><th>Option</th><th>Details</th></tr>
+<tr><td>On foot</td><td>Historic center is entirely walkable — a few blocks square. Wear flat, sturdy shoes for cobblestones.</td></tr>
+<tr><td>Schooner / boat</td><td>Book at the pier for bay trips. Shared or private. ~R$80–150/person.</td></tr>
+<tr><td>⚠️ Cobblestones</td><td>Pé-de-moleque stones are deliberately uneven and slippery when wet. No heels.</td></tr>
+</table>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🔗</span><span class="section-title">Official Sources</span></div>
+<div class="section-card-body">
+<div class="official-links">
+<a class="official-link" href="https://www.paraty.com.br" target="_blank"><span class="official-link-icon">🏛️</span><span class="official-link-text"><div class="official-link-name">paraty.com.br</div><div class="official-link-desc">Official Paraty tourism — events, tours, accommodation</div></span></a>
+<a class="official-link" href="https://cruiseports.org/ports/paraty" target="_blank"><span class="official-link-icon">⛵</span><span class="official-link-text"><div class="official-link-name">cruiseports.org — Paraty</div><div class="official-link-desc">Tender pier details, port guide</div></span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- ══════════════════════════════════════════ -->
+<!-- ILHABELA -->
+<!-- ══════════════════════════════════════════ -->
+<section class="port-section" id="port-ilhabela" role="tabpanel">
+<div class="port-header">
+<div class="port-header-top">
+<div><div class="port-name">Ilhabela</div><div class="port-country">Brazil · State of São Paulo · Brazil's Sailing Capital</div></div>
+<div class="port-badges">
+<span class="badge badge-tender">⛵ Tender</span>
+<span class="badge badge-currency">R$ Real</span>
+<span class="badge badge-tip">⚠️ Borrachudo flies</span>
+</div>
+</div>
+<div class="port-quick-facts">
+<div class="quick-fact"><strong>Tender to:</strong> Vila (Centro Histórico) — colonial center, shops, restaurants</div>
+<div class="quick-fact"><strong>Getting around:</strong> Mototaxi (R$10–25), Uber, 4x4 or boat for east-coast beaches</div>
+<div class="quick-fact"><strong>⚠️ Insects:</strong> Borrachudo flies are legendary — apply DEET BEFORE going ashore</div>
+<div class="quick-fact"><strong>November:</strong> 27°C, start of wet season — warm and lush</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🏝️</span><span class="section-title">Activities &amp; Sights</span></div>
+<div class="section-card-body">
+<div class="crowd-alert">⚠️ <span><strong>Borrachudo flies:</strong> Apply strong DEET repellent before leaving the ship — these biting flies are the island's most notorious feature. Don't wait until you're ashore.</span></div>
+<div class="item">
+<div class="item-name">Vila Centro Histórico</div>
+<span class="item-tag tag-walk">🚶 Walking</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Colonial center where tenders arrive — casarões coloniais (colonial mansions), artisan shops, ice cream parlors, restaurants. Relaxed island atmosphere. Walk the waterfront and explore the village lanes.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Ilhabela+Vila+Centro+Histórico" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Ilhabela+Brazil+history+sailing+capital+Atlantic+forest" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Praia de Castelhanos — by Boat</div>
+<span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">The island's most famous beach — heart-shaped, 3km of fine sand, emerald-green water. Inaccessible by regular car. Boat/flexboat from the village is the practical option for a port day (~R$80–120/person). The arrival by boat with the bay revealing itself is spectacular.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Praia+de+Castelhanos+Ilhabela" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Praia do Curral</div>
+<span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Most structured west-coast beach — bars, restaurants, surf. Calm enough for swimming. Short mototaxi or walk from the village. Good for a relaxed beach lunch.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Praia+do+Curral+Ilhabela" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Atlantic Forest Trails &amp; Waterfalls</div>
+<span class="item-tag tag-walk">🚶 Walking</span>
+<div class="item-desc">360+ waterfalls on the island. Short trails from the village lead into dense Atlantic Forest. The island state park covers most of the interior. Wildlife spotting — birds, monkeys, tropical flora.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Ilhabela+State+Park+Brazil" target="_blank">📍 Map</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🍽️</span><span class="section-title">Food &amp; Wine</span></div>
+<div class="section-card-body">
+<div class="holly-safe"><strong>Holly-safe:</strong> Fresh seafood — shrimp, fish, moqueca de peixe. Say "sem alho" (no garlic). Açaí bowls, fresh tropical fruits, pastéis at beach kiosks. Avoid churrasco (red meat).</div>
+<div class="item">
+<div class="item-name">Village Center Restaurants</div>
+<span class="item-tag tag-seafood">🐟 Seafood</span>
+<div class="item-desc">Seafood and varied dining in the colonial village center. Fresh shrimp, grilled fish, moqueca. Relaxed island dining — open-air settings, casual service.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Ilhabela+Vila+restaurants" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Beach Kiosks</div>
+<div class="item-desc">Snacks, drinks, açaí, fried pastéis on the sand. Cash preferred. Praia do Curral has the best kiosk infrastructure for a port day.</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🚌</span><span class="section-title">Transport</span></div>
+<div class="section-card-body">
+<table class="transport-table">
+<tr><th>Option</th><th>Details</th></tr>
+<tr><td>Mototaxi</td><td>R$10–25 per short trip. Available right at the pier exit. Fastest for nearby beaches.</td></tr>
+<tr><td>Uber</td><td>Available on the island. More comfortable than mototaxi for longer distances.</td></tr>
+<tr><td>Boat / Flexboat</td><td>R$80–120/person to Castelhanos. Book at the pier. Only way to reach east-coast beaches.</td></tr>
+<tr><td>4x4 Jeep tour</td><td>R$150–200/person to Castelhanos via off-road trail through state park. Operators at pier.</td></tr>
+<tr><td>⚠️ Insects</td><td>Apply DEET before leaving the ship — borrachudo flies bite immediately on arrival</td></tr>
+</table>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🔗</span><span class="section-title">Official Sources</span></div>
+<div class="section-card-body">
+<div class="official-links">
+<a class="official-link" href="https://www.ilhabela.sp.gov.br" target="_blank"><span class="official-link-icon">🏝️</span><span class="official-link-text"><div class="official-link-name">ilhabela.sp.gov.br</div><div class="official-link-desc">Official Ilhabela municipality tourism</div></span></a>
+<a class="official-link" href="https://semil.sp.gov.br" target="_blank"><span class="official-link-icon">⛴️</span><span class="official-link-text"><div class="official-link-name">semil.sp.gov.br</div><div class="official-link-desc">São Paulo ferry authority — ferry schedules &amp; Hora Marcada booking</div></span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- ══════════════════════════════════════════ -->
+<!-- SÃO FRANCISCO DO SUL -->
+<!-- ══════════════════════════════════════════ -->
+<section class="port-section" id="port-sfs" role="tabpanel">
+<div class="port-header">
+<div class="port-header-top">
+<div><div class="port-name">São Francisco do Sul</div><div class="port-country">Brazil · State of Santa Catarina · 3rd oldest city in Brazil · "São Chico"</div></div>
+<div class="port-badges">
+<span class="badge badge-dock">⚓ Docks</span>
+<span class="badge badge-currency">R$ Real</span>
+</div>
+</div>
+<div class="port-quick-facts">
+<div class="quick-fact"><strong>Access:</strong> Ship docks — walk to historic center</div>
+<div class="quick-fact"><strong>Getting around:</strong> Walk (historic center), taxi/Uber (beaches), boat (Vila da Glória)</div>
+<div class="quick-fact"><strong>Founded:</strong> 1641 — one of Brazil's oldest cities</div>
+<div class="quick-fact"><strong>November:</strong> ~25°C, pleasant spring weather in Santa Catarina</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🏛️</span><span class="section-title">Activities &amp; Sights</span></div>
+<div class="section-card-body">
+<div class="item">
+<div class="item-name">Centro Histórico Walking Tour</div>
+<span class="item-tag tag-walk">🚶 Walking</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">One of Brazil's best-preserved colonial centers — cobblestone streets, colorful Ibero-Azorean and German colonial architecture. Walk from the Mercado Público to Praia do Mota for the full experience. The Bica D'Água da Carioca (historic water fountain) is a notable stop. Igreja Matriz Nossa Senhora da Graça dates to the 17th century.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Centro+Histórico+São+Francisco+do+Sul" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=São+Francisco+do+Sul+Brazil+history+oldest+city+Santa+Catarina+1641" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Mercado Público Municipal</div>
+<span class="item-tag tag-market">🏪 Market</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Built in 1900, revitalized in 2000. Excellent for photos and gastronomy. The deck offers the most beautiful sunset in São Francisco do Sul — sun disappearing behind the Serra do Mar mountains. Gastronomy options inside.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Mercado+Público+São+Francisco+do+Sul" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Morro do Pão de Açúcar Viewpoint</div>
+<span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">150m hilltop where French explorers planted a wooden cross 500 years ago. Panoramic view of the entire island, Baía da Babitonga, and the Serra do Mar. The French commander Binot Paulmier de Gonneville landed here in 1504.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Morro+Pão+de+Açúcar+São+Francisco+do+Sul" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=São+Francisco+do+Sul+French+explorer+Gonneville+1504+history" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Museu Nacional do Mar</div>
+<div class="item-desc">One of Brazil's most important maritime heritage museums — vessels from different eras, specialized library on naval history and coastal cultures. Housed in the former Hoepcke navigation company building. Check opening status (was closed for renovation, reopening planned for 2026).</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Museu+Nacional+do+Mar+São+Francisco+do+Sul" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Museu+Nacional+do+Mar+São+Francisco+do+Sul+maritime+history" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Baía da Babitonga — Bay Exploration</div>
+<span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Largest navigable bay in Santa Catarina — 24 islands, calm waters. Boat trips from the central pier (trapiche central) to Vila da Glória on the continental side. Dolphins are sometimes spotted in the bay.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Baía+da+Babitonga+São+Francisco+do+Sul" target="_blank">📍 Map</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🍽️</span><span class="section-title">Food &amp; Wine</span></div>
+<div class="section-card-body">
+<div class="holly-safe"><strong>Holly-safe:</strong> Excellent fresh seafood — the local fishing tradition is strong. Grilled fish, shrimp, fresh oysters from the bay. Say "sem alho" (no garlic). Avoid churrasco (red meat).</div>
+<div class="item">
+<div class="item-name">Pier 65 — Iate Clube do Capri</div>
+<span class="item-tag tag-seafood">🐟 Fine Dining</span><span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Sensational pastel de camarão (shrimp pastry) and elaborate seafood dishes with views of Baía do Capri. One of the top dining experiences in São Chico.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Pier+65+Iate+Clube+Capri+São+Francisco+do+Sul" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Calle del Mar</div>
+<span class="item-tag tag-seafood">🐟 Seafood</span>
+<div class="item-desc">Famous Fish and Chips made with fresh local fish, creative drinks, spectacular view of Praia Grande. Casual and popular with locals.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Calle+del+Mar+São+Francisco+do+Sul" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Vila da Glória — Seafood Restaurants</div>
+<span class="item-tag tag-seafood">🐟 Seafood</span>
+<div class="item-desc">The continental side of the bay is famous for large shrimp, mussels, and fresh fish served in generous portions. Boat-lotação (water taxi) from the central pier. The Mata Atlântica backdrop is stunning.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Vila+da+Glória+São+Francisco+do+Sul" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Café Doce Verão</div>
+<div class="item-desc">Café with view over Baía Babitonga — perfect for a late afternoon coffee and pastry while watching the bay. Relaxed atmosphere.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Café+Doce+Verão+São+Francisco+do+Sul" target="_blank">📍 Map</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🚌</span><span class="section-title">Transport</span></div>
+<div class="section-card-body">
+<table class="transport-table">
+<tr><th>Option</th><th>Details</th></tr>
+<tr><td>On foot</td><td>Historic center is compact and walkable from the port</td></tr>
+<tr><td>Taxi / Uber</td><td>For beaches (Enseada, Praia do Forte, Itaguaçu) — 10–20 min from center</td></tr>
+<tr><td>Boat-lotação</td><td>Water taxi from trapiche central to Vila da Glória on the continental side</td></tr>
+</table>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🔗</span><span class="section-title">Official Sources</span></div>
+<div class="section-card-body">
+<div class="official-links">
+<a class="official-link" href="https://scturismo.com.br/sao-francisco-do-sul/" target="_blank"><span class="official-link-icon">🌊</span><span class="official-link-text"><div class="official-link-name">scturismo.com.br</div><div class="official-link-desc">Santa Catarina tourism — São Francisco do Sul guide</div></span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- ══════════════════════════════════════════ -->
+<!-- PUNTA DEL ESTE -->
+<!-- ══════════════════════════════════════════ -->
+<section class="port-section" id="port-pde" role="tabpanel">
+<div class="port-header">
+<div class="port-header-top">
+<div><div class="port-name">Punta del Este</div><div class="port-country">Uruguay · Maldonado Department</div></div>
+<div class="port-badges">
+<span class="badge badge-dock">⚓ Docks</span>
+<span class="badge badge-currency">UYU Peso</span>
+<span class="badge badge-tip">Spring season</span>
+</div>
+</div>
+<div class="port-quick-facts">
+<div class="quick-fact"><strong>Access:</strong> Ship docks at port — peninsula is walkable</div>
+<div class="quick-fact"><strong>Getting around:</strong> Walk (peninsula), taxi/Uber (La Barra, Casa Pueblo)</div>
+<div class="quick-fact"><strong>November:</strong> ~20–22°C, spring — pleasant, pre-peak season crowds</div>
+<div class="quick-fact"><strong>Currency:</strong> Uruguayan Peso (UYU) · Cards widely accepted</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🏖️</span><span class="section-title">Activities &amp; Sights</span></div>
+<div class="section-card-body">
+<div class="item">
+<div class="item-name">The Peninsula — Walking &amp; Beaches</div>
+<span class="item-tag tag-walk">🚶 Walking</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">The compact peninsula is highly walkable — Playa Mansa (calm bay side) and Playa Brava (Atlantic surf side) are minutes apart. The Rambla coastal promenade connects both sides. November is pre-peak season — pleasant without summer crowds.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Punta+del+Este+Peninsula+Uruguay" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">La Mano — Sculpture on Playa Brava</div>
+<span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Mario Irarrázabal's iconic sculpture of five fingers emerging from the sand on the Atlantic side. Best photographed at sunrise or late afternoon light. Short walk from the port.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=La+Mano+Sculpture+Playa+Brava+Punta+del+Este" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=La+Mano+sculpture+Punta+del+Este+Mario+Irarrazabal" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Casa Pueblo — Punta Ballena</div>
+<span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Carlos Páez Vilaró's extraordinary white sculptural building cascading down a cliff over the sea — part home, part museum, part hotel. 20 min by taxi from the port. The sunset from here is legendary. Tanganika Sushi Bar inside has sea views. Open daily.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Casa+Pueblo+Punta+Ballena+Uruguay" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Casa+Pueblo+Punta+Ballena+Carlos+Paez+Vilaro+history+architecture" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Gorlero Avenue — Town Center</div>
+<span class="item-tag tag-walk">🚶 Walking</span>
+<div class="item-desc">The main commercial avenue of the peninsula — boutiques, cafés, restaurants. November is pre-season so it's relaxed and uncrowded. Good for a morning stroll before the restaurants open for lunch.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Gorlero+Avenue+Punta+del+Este" target="_blank">📍 Map</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🍽️</span><span class="section-title">Food &amp; Wine</span></div>
+<div class="section-card-body">
+<div class="holly-safe"><strong>Holly-safe:</strong> Excellent seafood — fresh fish from the port, grilled prawns, ceviche. Uruguayan white wines (Albariño, Sauvignon Blanc) and rosados. Avoid parrilla (red meat focus). Say "sin ajo" (no garlic).</div>
+<div class="item">
+<div class="item-name">Boulevard de las Palmeras</div>
+<span class="item-tag tag-seafood">🐟 Fine Dining</span><span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">New 2026 opening by chef Marcelo Betancourt in a restored casona near the port. Fresh fish chosen meters from the restaurant, premium seafood, pastas. Juan Díaz de Solís esq. 2 de Febrero.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Boulevard+de+las+Palmeras+Punta+del+Este" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Maleza Beach Club — Serena Hotel</div>
+<span class="item-tag tag-seafood">🐟 Seafood</span><span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Parador-restaurant surrounded by nature at Playa Mansa (Parada 24). Seafood entrées, salads, fresh fish, pastas. Open midday to sunset. Shaded by trees — comfortable even in November heat.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Maleza+Beach+Club+Serena+Hotel+Punta+del+Este" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Tanganika Sushi Bar — Casa Pueblo</div>
+<span class="item-tag tag-seafood">🐟 Seafood</span><span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Sushi and cocktails at Club Hotel Casa Pueblo, Punta Ballena. Open-sea views. Ideal for sunset. Open daily 12–23h. Combine with a visit to the Casa Pueblo building itself.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Casa+Pueblo+Punta+Ballena+Tanganika" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Uruguayan Wines</div>
+<span class="item-tag tag-wine">🍷 Wine</span>
+<div class="item-desc">Uruguay's signature grape is Tannat (red — Holly avoids). For Holly: look for Uruguayan Albariño, Sauvignon Blanc, and rosados. Bodega Garzón (Maldonado, 45 min away) produces excellent whites — worth a taxi trip if time allows.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Bodega+Garzón+Uruguay" target="_blank">📍 Bodega Garzón</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🚌</span><span class="section-title">Transport</span></div>
+<div class="section-card-body">
+<table class="transport-table">
+<tr><th>Option</th><th>Details</th></tr>
+<tr><td>On foot</td><td>Peninsula is compact and walkable — Playa Mansa to Playa Brava is minutes</td></tr>
+<tr><td>Uber / Cabify</td><td>Available but coverage can be inconsistent outside the peninsula</td></tr>
+<tr><td>Taxi</td><td>Yellow cabs with meters. Available at port and main stands. Most reliable for Casa Pueblo (20 min).</td></tr>
+<tr><td>Local bus</td><td>Connects peninsula to beaches and Maldonado. Infrequent — check Google Maps for routes.</td></tr>
+</table>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🔗</span><span class="section-title">Official Sources</span></div>
+<div class="section-card-body">
+<div class="official-links">
+<a class="official-link" href="https://www.uruguaytourism.org/punta-del-este-uruguay/" target="_blank"><span class="official-link-icon">🌊</span><span class="official-link-text"><div class="official-link-name">uruguaytourism.org — Punta del Este</div><div class="official-link-desc">Travel guide, beaches, zones &amp; tips</div></span></a>
+<a class="official-link" href="https://www.casapueblo.com.uy" target="_blank"><span class="official-link-icon">🏛️</span><span class="official-link-text"><div class="official-link-name">casapueblo.com.uy</div><div class="official-link-desc">Casa Pueblo — museum, hotel, restaurant hours</div></span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- ══════════════════════════════════════════ -->
+<!-- MONTEVIDEO -->
+<!-- ══════════════════════════════════════════ -->
+<section class="port-section" id="port-mvd" role="tabpanel">
+<div class="port-header">
+<div class="port-header-top">
+<div><div class="port-name">Montevideo</div><div class="port-country">Uruguay · Capital City · Best quality of life in Latin America</div></div>
+<div class="port-badges">
+<span class="badge badge-dock">⚓ Docks</span>
+<span class="badge badge-currency">UYU Peso</span>
+<span class="badge badge-tip">22km Rambla</span>
+</div>
+</div>
+<div class="port-quick-facts">
+<div class="quick-fact"><strong>Access:</strong> Ship docks at port — Ciudad Vieja is walkable</div>
+<div class="quick-fact"><strong>Getting around:</strong> Walk (Ciudad Vieja), taxi/Uber (Pocitos, Punta Carretas, MAM)</div>
+<div class="quick-fact"><strong>November:</strong> ~20–23°C, spring — ideal walking weather</div>
+<div class="quick-fact"><strong>Rambla:</strong> World's longest continuous coastal promenade — 22km along the Río de la Plata</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🏛️</span><span class="section-title">Activities &amp; Sights</span></div>
+<div class="section-card-body">
+<div class="item">
+<div class="item-name">Ciudad Vieja — Old City Walk</div>
+<span class="item-tag tag-walk">🚶 Walking</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">One of South America's finest colonial architectural ensembles. Morning and late afternoon are best for photography. Key stops: Plaza Independencia, Palacio Salvo (1928 Art Deco — tallest building in South America until 1935), Teatro Solís (1856, Uruguay's national theatre), Peatonal Sarandí (pedestrian street), Catedral Metropolitana, Puerto de Montevideo. Street art and murals throughout.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Ciudad+Vieja+Montevideo" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Montevideo+Ciudad+Vieja+history+architecture+Palacio+Salvo" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Palacio Salvo</div>
+<span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">The 1928 Art Deco tower that was the tallest building in South America at completion. Designed by Mario Palanti (who also built the remarkably similar Palacio Barolo in Buenos Aires) — both buildings use Dante's Divine Comedy as a structural metaphor. Guided visits to the exhibition hall available.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Palacio+Salvo+Montevideo" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Palacio+Salvo+Montevideo+Mario+Palanti+Dante+architecture+history" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">The Rambla — Coastal Promenade</div>
+<span class="item-tag tag-walk">🚶 Walking</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">22km — the world's longest continuous coastal promenade along the Río de la Plata. Locals walk, cycle, jog, fish, and sit with mate gourds at any time of day. Walk from Ciudad Vieja toward Pocitos for the best stretch. On very clear days, the Buenos Aires skyline is visible across the estuary.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Rambla+Montevideo+Uruguay" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Punta Carretas — Former Prison Mall</div>
+<span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">A 1915 prison converted into a shopping mall with the cell structure preserved and visible through the retail spaces — remarkable adaptive reuse. Worth a taxi trip for the architectural curiosity. Café Brasilero (1877) nearby is the oldest café in the city.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Punta+Carretas+Shopping+Montevideo" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Punta+Carretas+prison+shopping+mall+Montevideo+history" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🛒</span><span class="section-title">Markets</span></div>
+<div class="section-card-body">
+<div class="item">
+<div class="item-name">Mercado del Puerto — Ciudad Vieja</div>
+<span class="item-tag tag-market">🏪 Market</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Victorian iron and glass hall (1868, prefabricated in England) filled with parrilla restaurants — charcoal smoke drifts perpetually through the structure. Saturday lunchtime is the traditional time for the whole city to eat its weekly asado here. Atmospheric even if you don't eat — the architecture alone is worth it. Piedras 237.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Mercado+del+Puerto+Montevideo" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Mercado+del+Puerto+Montevideo+history+1868+Victorian" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Mercado Agrícola de Montevideo (MAM)</div>
+<span class="item-tag tag-market">🏪 Market</span><span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Heritage building converted into a food hall — fresh fruits, vegetables, local products, restaurants, craft breweries. Open daily 9–22h. José L. Terra 2220. Excellent for fresh produce, dried fruits, olive oils, and local specialties. The best market for Holly's food preferences.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Mercado+Agrícola+Montevideo+MAM" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Mercado Ferrando — Cordón</div>
+<span class="item-tag tag-market">🏪 Market</span>
+<div class="item-desc">Former factory converted into a food hall with varied local proposals and shared bars. Good for groups with different tastes. Chaná 2120 esq. Joaquín de Salterain.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Mercado+Ferrando+Montevideo" target="_blank">📍 Map</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🍽️</span><span class="section-title">Food &amp; Wine</span></div>
+<div class="section-card-body">
+<div class="holly-safe"><strong>Holly-safe:</strong> Fresh fish from the Río de la Plata, seafood, salads, vegetarian options at MAM and Jacinto. Uruguayan Albariño and Sauvignon Blanc whites. Avoid Tannat (red) and parrilla (red meat focus). Say "sin ajo" (no garlic).</div>
+<div class="item">
+<div class="item-name">Jacinto — Ciudad Vieja</div>
+<span class="item-tag tag-seafood">🐟 Fine Dining</span><span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Bistro of seasonal produce in a heritage corner near Plaza Zabala. Contemporary Uruguayan cuisine — fresh fish, vegetable-forward dishes, excellent wine list. One of Montevideo's most acclaimed restaurants. Reserve ahead.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Jacinto+Restaurante+Montevideo+Ciudad+Vieja" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Café Brasilero — 1877</div>
+<div class="item-desc">The oldest café in Montevideo — salon with history and an air of another era. Coffee, pastries, light meals. Ciudad Vieja. A living piece of the city's history.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Café+Brasilero+Montevideo" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Café+Brasilero+Montevideo+1877+oldest+café+history" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Uruguayan Wines</div>
+<span class="item-tag tag-wine">🍷 Wine</span>
+<div class="item-desc">For Holly: Uruguayan Albariño (fresh, mineral, excellent with seafood), Sauvignon Blanc, and rosados. Vermut Flores makes vermuts based on Albariño — Montevideo is the regional epicenter of the vermouth revival. Bodega Bouza (Melilla, 20 min by taxi) offers guided visits and a restaurant — excellent for a half-day excursion.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Bodega+Bouza+Melilla+Montevideo" target="_blank">📍 Bodega Bouza</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🚌</span><span class="section-title">Transport</span></div>
+<div class="section-card-body">
+<table class="transport-table">
+<tr><th>Option</th><th>Details</th></tr>
+<tr><td>On foot</td><td>Ciudad Vieja and Rambla are very walkable. Flat city — excellent for walking.</td></tr>
+<tr><td>Uber / Cabify</td><td>Reliable throughout the city. Best for Punta Carretas, MAM, Bodega Bouza.</td></tr>
+<tr><td>Taxi</td><td>Available at port and throughout city. Metered. Reliable.</td></tr>
+</table>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🔗</span><span class="section-title">Official Sources</span></div>
+<div class="section-card-body">
+<div class="official-links">
+<a class="official-link" href="https://www.descubrimontevideoplus.uy" target="_blank"><span class="official-link-icon">🌆</span><span class="official-link-text"><div class="official-link-name">descubrimontevideoplus.uy</div><div class="official-link-desc">Official Montevideo tourism — gastronomy, markets, wine</div></span></a>
+<a class="official-link" href="https://www.mercadodelpuerto.com" target="_blank"><span class="official-link-icon">🏪</span><span class="official-link-text"><div class="official-link-name">mercadodelpuerto.com</div><div class="official-link-desc">Mercado del Puerto — restaurants &amp; hours</div></span></a>
+<a class="official-link" href="https://www.teatrosolis.org.uy" target="_blank"><span class="official-link-icon">🎭</span><span class="official-link-text"><div class="official-link-name">teatrosolis.org.uy</div><div class="official-link-desc">Teatro Solís — tours &amp; performances</div></span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- ══════════════════════════════════════════ -->
+<!-- BUENOS AIRES -->
+<!-- ══════════════════════════════════════════ -->
+<section class="port-section" id="port-bue" role="tabpanel">
+<div class="port-header">
+<div class="port-header-top">
+<div><div class="port-name">Buenos Aires</div><div class="port-country">Argentina · Capital City · Final Port</div></div>
+<div class="port-badges">
+<span class="badge badge-dock">⚓ Docks</span>
+<span class="badge badge-currency">ARS Peso</span>
+<span class="badge badge-tip">Spring season</span>
+</div>
+</div>
+<div class="port-quick-facts">
+<div class="quick-fact"><strong>Access:</strong> Ship docks at Puerto Madero — walkable to San Telmo, taxi to Palermo/Recoleta</div>
+<div class="quick-fact"><strong>Getting around:</strong> Uber, taxi, Subte (metro), walking</div>
+<div class="quick-fact"><strong>November:</strong> ~22–26°C, spring — ideal weather, pre-summer crowds</div>
+<div class="quick-fact"><strong>Currency:</strong> Argentine Peso (ARS) · USD widely accepted · carry small bills</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🏛️</span><span class="section-title">Activities &amp; Sights</span></div>
+<div class="section-card-body">
+<div class="item">
+<div class="item-name">San Telmo — Historic Neighborhood</div>
+<span class="item-tag tag-walk">🚶 Walking</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Buenos Aires' oldest and most atmospheric neighborhood — cobblestone streets, low historic houses, shady patios, antique shops, classic cafés, tango corners. Walk Defensa street from Plaza Dorrego to Plaza de Mayo. If visiting on Sunday, the Feria de San Telmo fills the streets from 11 AM — choripán stands, antiques, street performers, tango dancers. Closest major neighborhood to the port.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=San+Telmo+Buenos+Aires" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=San+Telmo+Buenos+Aires+history+oldest+neighborhood+tango" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Mercado de San Telmo</div>
+<span class="item-tag tag-market">🏪 Market</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">1897 iron and glass market hall — antique stalls, food vendors, parrilla counter inside. The architecture is stunning. Lunch at the parrilla counter inside the market is a classic Buenos Aires experience. Defensa 961.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Mercado+de+San+Telmo+Buenos+Aires" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Mercado+San+Telmo+Buenos+Aires+1897+history+architecture" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Recoleta Cemetery</div>
+<span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">One of the world's most extraordinary cemeteries — a city of elaborate mausoleums housing Argentina's elite, including Evita Perón. Free entry. Best in morning light. Combine with breakfast at La Biela café on Quintana opposite the cemetery entrance.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Recoleta+Cemetery+Buenos+Aires" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Recoleta+Cemetery+Buenos+Aires+history+Evita+Peron+mausoleums" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Palermo Soho &amp; Hollywood</div>
+<span class="item-tag tag-walk">🚶 Walking</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">Buenos Aires' most vibrant neighborhood — tree-lined streets, boutiques, cafés, restaurants, street art. Palermo Soho (around Plaza Serrano) for shopping and cafés; Palermo Hollywood for restaurants and bars. 20 min by Uber from the port. The Dorrego flea market (Saturdays and Sundays) is excellent for antiques and crafts.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Palermo+Soho+Buenos+Aires" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Puerto Madero — Waterfront</div>
+<span class="item-tag tag-walk">🚶 Walking</span><span class="item-tag tag-photo">📷 Photography</span>
+<div class="item-desc">The renovated old port district — converted brick warehouses, the Puente de la Mujer (Woman's Bridge by Santiago Calatrava), the Ecological Reserve. Walkable from the ship. Good for an early morning or evening stroll.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Puerto+Madero+Buenos+Aires" target="_blank">📍 Map</a>
+<a class="btn btn-ai" href="https://copilot.microsoft.com/?q=Puente+de+la+Mujer+Buenos+Aires+Calatrava+Puerto+Madero" target="_blank">🤖 Ask Historian</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🛒</span><span class="section-title">Markets</span></div>
+<div class="section-card-body">
+<div class="item">
+<div class="item-name">Feria de San Telmo (Sunday)</div>
+<span class="item-tag tag-market">🏪 Market</span>
+<div class="item-desc">Sunday street fair along Defensa from Plaza Dorrego to Plaza de Mayo — antiques, crafts, street food, tango dancers, live music. Starts 11 AM. One of Buenos Aires' great Sunday experiences. Choripán stands at Plaza Dorrego.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Feria+de+San+Telmo+Plaza+Dorrego+Buenos+Aires" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Feria de Mataderos (Sunday)</div>
+<span class="item-tag tag-market">🏪 Market</span>
+<div class="item-desc">Authentic gaucho market on the outskirts — folk music, traditional crafts, empanadas, regional foods. A more local experience than San Telmo. 30 min by taxi. Sunday afternoons.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Feria+de+Mataderos+Buenos+Aires" target="_blank">📍 Map</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🍽️</span><span class="section-title">Food &amp; Wine</span></div>
+<div class="section-card-body">
+<div class="holly-safe"><strong>Holly-safe:</strong> Buenos Aires has excellent seafood and vegetable-forward restaurants in Palermo. Say "sin ajo" (no garlic). Avoid parrilla (red meat focus). Argentine Torrontés and Patagonian Pinot Noir whites are excellent for Holly.</div>
+<div class="item">
+<div class="item-name">El Preferido de Palermo</div>
+<span class="item-tag tag-seafood">🐟 Local</span>
+<div class="item-desc">Classic bodegón (traditional Argentine tavern) — tortilla, vitel toné, milanesa, excellent wine list. Long lunch at the marble bar. Honduras 4699, Palermo.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=El+Preferido+de+Palermo+Buenos+Aires" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Gran Dabbang — Palermo</div>
+<span class="item-tag tag-holly">✓ Holly</span>
+<div class="item-desc">Indo-Argentine fusion — lentil pancakes, spiced lamb, crunchy salads. Cash only, no reservations. Arrive early. Palermo Hollywood. One of Buenos Aires' most creative kitchens.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Gran+Dabbang+Palermo+Buenos+Aires" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Salvaje Bakery — Palermo</div>
+<div class="item-desc">Sourdough toast, flat white, French-Argentine pastries. Excellent for a morning start before exploring Palermo. Open from 9 AM.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Salvaje+Bakery+Palermo+Buenos+Aires" target="_blank">📍 Map</a>
+</div>
+</div>
+<div class="item">
+<div class="item-name">Argentine Wines</div>
+<span class="item-tag tag-wine">🍷 Wine</span>
+<div class="item-desc">For Holly: Argentine Torrontés (aromatic white from Salta — floral, fresh), Patagonian Pinot Noir (lighter red — Holly may tolerate), and Chardonnay from Mendoza. Lo de Joaquín Alberdi in Palermo offers sommelier-led tastings of 6 boutique Argentine wines.</div>
+<div class="btn-row">
+<a class="btn btn-map" href="https://maps.google.com/?q=Lo+de+Joaquin+Alberdi+Palermo+Buenos+Aires" target="_blank">📍 Wine Tasting</a>
+</div>
+</div>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🚌</span><span class="section-title">Transport</span></div>
+<div class="section-card-body">
+<table class="transport-table">
+<tr><th>Option</th><th>Details</th></tr>
+<tr><td>Uber</td><td>Most reliable. Works throughout the city. Best for Palermo, Recoleta, Mataderos.</td></tr>
+<tr><td>Taxi</td><td>Yellow and black cabs with meters. Available at port and throughout city.</td></tr>
+<tr><td>Subte (Metro)</td><td>6 lines covering the city. Line A (oldest in South America, 1913) is historic in itself.</td></tr>
+<tr><td>On foot</td><td>San Telmo and Puerto Madero are walkable from the port. Palermo requires taxi/Uber.</td></tr>
+</table>
+</div>
+</div>
+<div class="section-card">
+<div class="section-card-header"><span class="section-icon">🔗</span><span class="section-title">Official Sources</span></div>
+<div class="section-card-body">
+<div class="official-links">
+<a class="official-link" href="https://turismo.buenosaires.gob.ar" target="_blank"><span class="official-link-icon">🌆</span><span class="official-link-text"><div class="official-link-name">turismo.buenosaires.gob.ar</div><div class="official-link-desc">Official Buenos Aires tourism — neighborhoods, events, maps</div></span></a>
+<a class="official-link" href="https://www.buenosairestourism.org/buenos-aires-markets/" target="_blank"><span class="official-link-icon">🏪</span><span class="official-link-text"><div class="official-link-name">buenosairestourism.org — Markets</div><div class="official-link-desc">Weekend ferias guide — San Telmo, Mataderos, Palermo</div></span></a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- DAY PLANNER -->
+<!-- ══════════════════════════════════════════ -->
+<section class="port-section" id="port-planner" role="tabpanel">
+  <div class="port-header" style="background:linear-gradient(135deg,#0d2a1a,#162030);border-color:#1abc9c33;">
+    <div class="port-header-top">
+      <div>
+        <div class="port-name" style="color:#1abc9c;">Day Planner</div>
+        <div class="port-country">Plan your day — ship tours, independent time &amp; port notes</div>
+      </div>
+      <div class="port-badges">
+        <span class="badge" style="background:rgba(26,188,156,0.2);color:#5de8d0;border:1px solid rgba(26,188,156,0.3);">💾 Auto-saves</span>
+      </div>
+    </div>
+    <div class="port-quick-facts">
+      <div class="quick-fact"><strong>How to use:</strong> Select a port, fill in your ship tour (if any), tick what you want to do independently, set your all-aboard time.</div>
+    </div>
+  </div>
+
+  <!-- PORT SELECTOR -->
+  <div class="dp-port-select-wrap">
+    <label for="dp-port-select">Select Port</label>
+    <select class="dp-port-select" id="dp-port-select" onchange="dpLoadPort(this.value)">
+      <option value="rio">🇧🇷 Rio de Janeiro</option>
+      <option value="buzios">Búzios</option>
+      <option value="ilha">Ilha Grande</option>
+      <option value="paraty">Paraty</option>
+      <option value="ilhabela">Ilhabela</option>
+      <option value="sfs">São Francisco do Sul</option>
+      <option value="pde">🇺🇾 Punta del Este</option>
+      <option value="mvd">Montevideo</option>
+      <option value="bue">🇦🇷 Buenos Aires</option>
+    </select>
+  </div>
+
+  <!-- PORT TIMES -->
+  <div class="dp-card">
+    <div class="dp-card-header"><span class="section-icon">⏰</span><span class="dp-card-title gold">Port Times &amp; Reminders</span></div>
+    <div class="dp-card-body">
+      <div class="dp-times-grid">
+        <div>
+          <div class="dp-field-label">All-Aboard Time</div>
+          <input class="dp-input" id="dp-aboard" placeholder="e.g. 17:30" type="time" oninput="dpSave()">
+        </div>
+        <div>
+          <div class="dp-field-label">Dock / Tender Time</div>
+          <input class="dp-input" id="dp-docktime" placeholder="e.g. 08:00" type="time" oninput="dpSave()">
+        </div>
+      </div>
+      <div class="dp-tender-alert" id="dp-tender-alert">⛵ <strong>Tender port</strong> — join the return tender queue at least 45 min before all-aboard. Watch for swell warnings.</div>
+      <div style="margin-top:12px;">
+        <div class="dp-field-label">Port Notes &amp; Reminders</div>
+        <textarea class="dp-textarea" id="dp-port-notes" placeholder="e.g. Restaurant reservation at 13:00 · Bring R$200 cash · Wear flat shoes" oninput="dpSave()"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHIP TOUR -->
+  <div class="dp-card">
+    <div class="dp-card-header"><span class="section-icon">🚢</span><span class="dp-card-title blue">Ship Tour (Scenic)</span></div>
+    <div class="dp-card-body">
+      <div style="margin-bottom:12px;">
+        <div class="dp-field-label">Tour Name &amp; Details</div>
+        <textarea class="dp-textarea" id="dp-tour-name" placeholder="e.g. Scenic — Christ the Redeemer &amp; Sugarloaf · Departs 08:30 · Returns 13:00" oninput="dpSave()"></textarea>
+      </div>
+      <div>
+        <div class="dp-field-label">Meeting Point &amp; Time</div>
+        <input class="dp-input" id="dp-tour-meeting" placeholder="e.g. Gangway Deck 3 · 08:15" oninput="dpSave()">
+      </div>
+    </div>
+  </div>
+
+  <!-- INDEPENDENT TIME -->
+  <div class="dp-card">
+    <div class="dp-card-header"><span class="section-icon">☀️</span><span class="dp-card-title teal">Our Day — Independent Options</span></div>
+    <div class="dp-card-body">
+      <ul class="dp-checklist" id="dp-checklist"></ul>
+      <div class="dp-add-row">
+        <input class="dp-add-input" id="dp-add-input" placeholder="Add your own item..." type="text" onkeydown="if(event.key==='Enter')dpAddCustom()">
+        <button class="dp-add-btn" onclick="dpAddCustom()">+ Add</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-saved-note" id="dp-saved-note">Changes save automatically to this device</div>
+  <button class="dp-clear-btn" onclick="dpClearPort()">Clear this port's plan</button>
+</section>
+
+</main>
+<script>
+function showPort(id, btn) {
+  document.querySelectorAll('.port-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.port-tab').forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected','false');
+  });
+  document.getElementById('port-' + id).classList.add('active');
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected','true');
+  var lr = document.getElementById('live-region');
+  if(lr) lr.textContent = 'Showing ' + btn.textContent.trim();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function toggleEssentials(btn) {
+  var panel = document.getElementById('essentials-panel');
+  var isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open');
+  btn.classList.toggle('open');
+  btn.setAttribute('aria-expanded', !isOpen);
+}
+
+// ── DAY PLANNER DATA ──
+var DP_ITEMS = {
+  rio: [
+    "Christ the Redeemer — arrive at opening (7:20 AM) or after 3 PM",
+    "Santa Teresa neighborhood walk — morning light, Largo do Guimarães",
+    "Selaron Steps — best before crowds, between Lapa & Santa Teresa",
+    "Sugarloaf Mountain cable car — sunset for golden light",
+    "Ipanema beach — early morning, Arpoador rock for sunset",
+    "CADEG Market — Saturday feijoada & chorinho (11:30–14:00)",
+    "Feira Hippie de Ipanema — Sunday market, Praça General Osório",
+    "Boteco lunch — petiscos, cold chopp, local neighborhood bar",
+    "Açaí bowl at beach kiosk",
+    "Wine shopping at CADEG wine stores"
+  ],
+  buzios: [
+    "Rua das Pedras walk — late morning once shops open",
+    "Orla Bardot & Brigitte Bardot statue — morning light",
+    "Taxi boat to Praia João Fernandes — arrive by 10 AM",
+    "Praia da Tartaruga — green turtles, calm water, morning",
+    "Schooner beach-hopping circuit — book at pier on arrival",
+    "La Gare restaurant — grilled octopus, fresh catch (reserve ahead)",
+    "74 Restaurant at Casas Brancas — sunset table, Orla Bardot view",
+    "Bar dos Pescadores — moqueca de peixe, generous portions",
+    "Chez Michou crêperie — cash only, Rua das Pedras",
+    "Gelato Maria Maria — pistachio, seasonal fruits"
+  ],
+  ilha: [
+    "Vila do Abraão village walk — waterfront & lanes",
+    "Island boat circuit — Lagoa Azul, Lopes Mendes, Aventureiro",
+    "Praia de Lopes Mendes — by boat (~30 min from Abraão)",
+    "Lagoa Azul snorkeling — calm crystal-clear water",
+    "Atlantic Forest trail to Praia do Abraãozinho — 30 min each way",
+    "Seafood lunch at waterfront restaurant in Abraão",
+    "Fresh coconut water & açaí at beach kiosk",
+    "Apply DEET before going ashore!"
+  ],
+  paraty: [
+    "Four Churches walk — start early, golden light on whitewash",
+    "Igreja de Santa Rita — most photographed building, waterfront",
+    "Forte Defensor Perpétuo — hilltop view, best at dusk",
+    "Schooner to Saco do Mamanguá — fjord-like inlet, book at pier",
+    "Cachaça tasting — alambique visit or center shops",
+    "Caiçara seafood lunch — historic center restaurants",
+    "Casa da Cultura — restored colonial house",
+    "Wear flat sturdy shoes — cobblestones are uneven & slippery"
+  ],
+  ilhabela: [
+    "Vila Centro Histórico walk — colonial mansions, waterfront",
+    "Praia de Castelhanos by boat — heart-shaped bay, emerald water",
+    "Praia do Curral — calm west-coast beach, bars & restaurants",
+    "Atlantic Forest trail & waterfalls — from the village",
+    "Seafood lunch at village center restaurant",
+    "4x4 Jeep tour to Castelhanos — operators at pier",
+    "Apply DEET before leaving the ship — borrachudo flies!"
+  ],
+  sfs: [
+    "Centro Histórico walk — Mercado Público to Praia do Mota",
+    "Mercado Público Municipal — deck sunset view, gastronomy",
+    "Morro do Pão de Açúcar viewpoint — 150m, panoramic bay view",
+    "Museu Nacional do Mar — maritime heritage (check opening status)",
+    "Baía da Babitonga boat trip — 24 islands, dolphins possible",
+    "Vila da Glória by water taxi — seafood restaurants, Mata Atlântica",
+    "Pier 65 — pastel de camarão, Baía do Capri views",
+    "Calle del Mar — fresh fish & chips, Praia Grande view",
+    "Café Doce Verão — coffee with bay view, late afternoon"
+  ],
+  pde: [
+    "Peninsula walk — Playa Mansa to Playa Brava",
+    "La Mano sculpture on Playa Brava — sunrise or late afternoon",
+    "Casa Pueblo at Punta Ballena — 20 min taxi, legendary sunset",
+    "Tanganika Sushi Bar at Casa Pueblo — open daily 12–23h",
+    "Gorlero Avenue stroll — boutiques & cafés, pre-season quiet",
+    "Boulevard de las Palmeras — fresh fish, new 2026 opening",
+    "Maleza Beach Club — seafood & salads, Playa Mansa",
+    "Bodega Garzón — Uruguayan whites, 45 min taxi (half-day)"
+  ],
+  mvd: [
+    "Ciudad Vieja walk — morning or late afternoon light",
+    "Palacio Salvo — Art Deco icon, guided visit to exhibition hall",
+    "Teatro Solís — Uruguay's national theatre, 1856",
+    "Peatonal Sarandí — pedestrian street, street art & murals",
+    "The Rambla — coastal promenade walk toward Pocitos",
+    "Mercado del Puerto — Victorian iron hall, charcoal smoke, atmosphere",
+    "Mercado Agrícola (MAM) — fresh produce, dried fruits, olive oils",
+    "Mercado Ferrando — food hall, varied local proposals",
+    "Jacinto restaurant — seasonal produce, fresh fish (reserve ahead)",
+    "Café Brasilero 1877 — oldest café in Montevideo",
+    "Punta Carretas former prison mall — remarkable adaptive reuse",
+    "Bodega Bouza — Uruguayan whites, guided visit & restaurant (20 min taxi)"
+  ],
+  bue: [
+    "San Telmo neighborhood walk — Defensa street, Plaza Dorrego",
+    "Feria de San Telmo — Sunday street fair from 11 AM",
+    "Mercado de San Telmo — 1897 iron hall, antiques & food",
+    "Recoleta Cemetery — free entry, morning light, La Biela café nearby",
+    "Palermo Soho walk — boutiques, cafés, street art",
+    "Dorrego flea market — Sat & Sun, antiques & crafts",
+    "Puerto Madero waterfront — Puente de la Mujer, Ecological Reserve",
+    "El Preferido de Palermo — classic bodegón, long lunch",
+    "Gran Dabbang — Indo-Argentine fusion, cash only, no reservations",
+    "Salvaje Bakery — sourdough & flat white, morning start",
+    "Lo de Joaquín Alberdi — sommelier-led Argentine wine tasting",
+    "Subte Line A — oldest metro in South America, historic in itself"
+  ]
+};
+
+var DP_TENDER_PORTS = ['buzios','ilha','paraty','ilhabela'];
+
+function dpKey(port, field) { return 'dp_' + port + '_' + field; }
+
+function dpSave() {
+  var port = document.getElementById('dp-port-select').value;
+  localStorage.setItem(dpKey(port,'aboard'), document.getElementById('dp-aboard').value);
+  localStorage.setItem(dpKey(port,'docktime'), document.getElementById('dp-docktime').value);
+  localStorage.setItem(dpKey(port,'notes'), document.getElementById('dp-port-notes').value);
+  localStorage.setItem(dpKey(port,'tour'), document.getElementById('dp-tour-name').value);
+  localStorage.setItem(dpKey(port,'meeting'), document.getElementById('dp-tour-meeting').value);
+  // Save checklist states
+  var checks = document.querySelectorAll('#dp-checklist input[type=checkbox]');
+  var states = {};
+  checks.forEach(function(cb){ states[cb.dataset.key] = cb.checked; });
+  localStorage.setItem(dpKey(port,'checks'), JSON.stringify(states));
+  // Save custom items
+  var customs = [];
+  document.querySelectorAll('#dp-checklist li[data-custom]').forEach(function(li){
+    customs.push(li.querySelector('label').textContent);
+  });
+  localStorage.setItem(dpKey(port,'customs'), JSON.stringify(customs));
+  // Flash saved note
+  var note = document.getElementById('dp-saved-note');
+  note.textContent = '✓ Saved — ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+}
+
+function dpLoadPort(port) {
+  // Times
+  document.getElementById('dp-aboard').value = localStorage.getItem(dpKey(port,'aboard')) || '';
+  document.getElementById('dp-docktime').value = localStorage.getItem(dpKey(port,'docktime')) || '';
+  document.getElementById('dp-port-notes').value = localStorage.getItem(dpKey(port,'notes')) || '';
+  document.getElementById('dp-tour-name').value = localStorage.getItem(dpKey(port,'tour')) || '';
+  document.getElementById('dp-tour-meeting').value = localStorage.getItem(dpKey(port,'meeting')) || '';
+  // Tender alert
+  var alert = document.getElementById('dp-tender-alert');
+  alert.classList.toggle('show', DP_TENDER_PORTS.indexOf(port) >= 0);
+  // Build checklist
+  var ul = document.getElementById('dp-checklist');
+  ul.innerHTML = '';
+  var savedChecks = JSON.parse(localStorage.getItem(dpKey(port,'checks')) || '{}');
+  var savedCustoms = JSON.parse(localStorage.getItem(dpKey(port,'customs')) || '[]');
+  var items = DP_ITEMS[port] || [];
+  items.forEach(function(item, i) {
+    var key = 'preset_' + i;
+    var li = document.createElement('li');
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.dataset.key = key;
+    cb.checked = savedChecks[key] || false;
+    cb.onchange = dpSave;
+    var lbl = document.createElement('label');
+    lbl.textContent = item;
+    li.appendChild(cb); li.appendChild(lbl);
+    ul.appendChild(li);
+  });
+  savedCustoms.forEach(function(text) {
+    dpAddCustomItem(text, savedChecks);
+  });
+}
+
+function dpAddCustomItem(text, savedChecks) {
+  if (!text.trim()) return;
+  var ul = document.getElementById('dp-checklist');
+  var port = document.getElementById('dp-port-select').value;
+  var key = 'custom_' + Date.now() + '_' + Math.random();
+  var li = document.createElement('li');
+  li.dataset.custom = '1';
+  var cb = document.createElement('input');
+  cb.type = 'checkbox';
+  cb.dataset.key = key;
+  cb.checked = (savedChecks && savedChecks[key]) || false;
+  cb.onchange = dpSave;
+  var lbl = document.createElement('label');
+  lbl.textContent = text;
+  // Remove button
+  var rm = document.createElement('button');
+  rm.textContent = '✕';
+  rm.style.cssText = 'background:none;border:none;color:#6b8299;cursor:pointer;font-size:12px;margin-left:auto;padding:0 4px;flex-shrink:0;';
+  rm.onclick = function(){ li.remove(); dpSave(); };
+  li.appendChild(cb); li.appendChild(lbl); li.appendChild(rm);
+  ul.appendChild(li);
+}
+
+function dpAddCustom() {
+  var input = document.getElementById('dp-add-input');
+  var text = input.value.trim();
+  if (!text) return;
+  dpAddCustomItem(text, {});
+  input.value = '';
+  dpSave();
+}
+
+function dpClearPort() {
+  if (!confirm('Clear all plan data for this port?')) return;
+  var port = document.getElementById('dp-port-select').value;
+  ['aboard','docktime','notes','tour','meeting','checks','customs'].forEach(function(f){
+    localStorage.removeItem(dpKey(port,f));
+  });
+  dpLoadPort(port);
+}
+
+// Init planner when tab is shown
+var _dpInited = false;
+var _origShowPort = showPort;
+showPort = function(id, btn) {
+  _origShowPort(id, btn);
+  if (id === 'planner') {
+    dpLoadPort(document.getElementById('dp-port-select').value);
+  }
+};
+
+</script>
+</body>
+</html>
